@@ -1,0 +1,14 @@
+torch
+torchaudio
+numpy
+pandas
+matplotlib
+seaborn
+tqdm 
+scipy 
+librosa
+torchcodec
+soundfile
+unidecode 
+inflect 
+onnxruntime  
