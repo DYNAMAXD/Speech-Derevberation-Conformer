@@ -1,8 +1,3 @@
-"""
-train_conformer_final.py
-Complete Conformer training with progress bars, graphing, and checkpointing.
-"""
-
 import os
 import sys
 import time
@@ -25,10 +20,8 @@ from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
 from tqdm import tqdm
-
-# ----------------------------------------------------------------------------
-# Configuration
-# ----------------------------------------------------------------------------
+ 
+# Configuration 
 class Config:
     """Optimized configuration for 4-hour training."""
     BASE_DIR = Path.cwd()
@@ -82,10 +75,8 @@ class Config:
         print(f"  Total steps planned: {self.TOTAL_STEPS}")
         print(f"  Checkpoint interval: {self.CHECKPOINT_INTERVAL_MIN} minutes")
         print()
-
-# ----------------------------------------------------------------------------
-# Data Loading
-# ----------------------------------------------------------------------------
+ 
+# Data Loading 
 class FixedLengthLogMelDataset(Dataset):
     """Dataset with fixed maximum length."""
     
@@ -182,10 +173,8 @@ def efficient_collate(batch):
         'seq_len': torch.tensor(seq_lens),
         'file': [item['file'] for item in batch]
     }
-
-# ----------------------------------------------------------------------------
-# Conformer Model
-# ----------------------------------------------------------------------------
+ 
+# Conformer Model 
 class SimpleAttention(nn.Module):
     """Simplified attention."""
     
@@ -323,10 +312,8 @@ class FastConformer(nn.Module):
         x = self.output_proj(x)
         
         return x
-
-# ----------------------------------------------------------------------------
-# Training System with Progress Bars
-# ----------------------------------------------------------------------------
+ 
+# Training System with Progress Bars 
 class TrainerWithProgress:
     """Training system with progress bars and graphing."""
     
@@ -723,10 +710,8 @@ class TrainerWithProgress:
             print(f"  History file: {history_file}")
         
         return self.history
-
-# ----------------------------------------------------------------------------
-# Main Execution
-# ----------------------------------------------------------------------------
+ 
+# Main Execution 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--hours', type=float, default=4.0, help='Training hours')
@@ -784,4 +769,5 @@ def main():
     print("Training summary complete!")
 
 if __name__ == "__main__":
+
     main()
