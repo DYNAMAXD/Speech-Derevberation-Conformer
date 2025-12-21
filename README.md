@@ -180,4 +180,204 @@ https://pytorch.org/hub/nvidia_deeplearningexamples_hifigan/
 - All learning occurs in the **log-Mel domain**
 - HiFi-GAN is strictly for **post-processing**
 - Feature extraction consistency is critical when using checkpoints
-*/
+
+/*
+## How to Use `evaluate.py`
+
+This script evaluates a trained dereverberation model checkpoint on a single audio file
+and reconstructs the output waveform using HiFi-GAN.
+
+---
+
+## Basic Command
+
+python evaluate.py \
+  --checkpoint conformer_step20610_20251217_125640.pt \
+  --audio raw_IR_numClosed_0_numComb_1_mic_1_sweep_1_rt60_1.811s.wav \
+  --rt60 1.811
+
+---
+
+## Command-Line Arguments
+
+### --checkpoint (required)
+
+Specifies the path to the trained model checkpoint file.
+
+- Contains the model weights and training configuration
+- Must match the feature extraction settings used during training
+
+Example:
+--checkpoint conformer_step20610_20251217_125640.pt
+
+---
+
+### --audio (required)
+
+Specifies the input audio file to be dereverberated.
+
+- Must be a WAV file
+- Audio is automatically resampled to the training sample rate (e.g., 16 kHz)
+- Can be mono or stereo (stereo is converted to mono)
+
+Example:
+--audio raw_IR_numClosed_0_numComb_1_mic_1_sweep_1_rt60_1.811s.wav
+
+---
+
+### --rt60 (optional)
+
+Specifies the reverberation time (RT60) of the input audio.
+
+- Default value: 2.0
+- This value is appended as an additional feature channel during inference
+- Should match the estimated RT60 of the input audio for best results
+
+Example:
+--rt60 1.811
+
+---
+
+### --out (optional)
+
+Specifies the output directory where evaluation results are saved.
+
+- Default directory: evaluation_results
+- Directory is created automatically if it does not exist
+
+Example:
+--out evaluation_results
+
+---
+
+## Output Files
+
+After execution, the output directory contains:
+
+evaluation_results/
+├── output.wav        (Dereverberated audio output)
+└── summary.json      (Evaluation metrics and run details)
+
+---
+
+## What Happens Internally
+
+Input Audio (.wav)
+→ Pre-emphasis
+→ STFT
+→ Mel Spectrogram (80 bins)
+→ Log-Mel Normalization + RT60
+→ Dereverberation Model
+→ Clean Log-Mel
+→ HiFi-GAN Vocoder
+→ Output Audio (.wav)
+
+---
+
+## Notes
+
+- CUDA is used automatically if available
+- CPU execution is supported but slow (HiFi-GAN is computationally heavy)
+- Feature extraction parameters must exactly match the checkpoint configuration
+- HiFi-GAN weights are downloaded automatically on first run
+
+## How to Use `evaluate.py`
+
+This script evaluates a trained dereverberation model checkpoint on a single audio file
+and reconstructs the output waveform using HiFi-GAN.
+
+---
+
+## Basic Command
+
+python evaluate.py \
+  --checkpoint conformer_step20610_20251217_125640.pt \
+  --audio raw_IR_numClosed_0_numComb_1_mic_1_sweep_1_rt60_1.811s.wav \
+  --rt60 1.811
+
+---
+
+## Command-Line Arguments
+
+### --checkpoint (required)
+
+Specifies the path to the trained model checkpoint file.
+
+- Contains the model weights and training configuration
+- Must match the feature extraction settings used during training
+
+Example:
+--checkpoint conformer_step20610_20251217_125640.pt
+
+---
+
+### --audio (required)
+
+Specifies the input audio file to be dereverberated.
+
+- Must be a WAV file
+- Audio is automatically resampled to the training sample rate (e.g., 16 kHz)
+- Can be mono or stereo (stereo is converted to mono)
+
+Example:
+--audio raw_IR_numClosed_0_numComb_1_mic_1_sweep_1_rt60_1.811s.wav
+
+---
+
+### --rt60 (optional)
+
+Specifies the reverberation time (RT60) of the input audio.
+
+- Default value: 2.0
+- This value is appended as an additional feature channel during inference
+- Should match the estimated RT60 of the input audio for best results
+
+Example:
+--rt60 1.811
+
+---
+
+### --out (optional)
+
+Specifies the output directory where evaluation results are saved.
+
+- Default directory: evaluation_results
+- Directory is created automatically if it does not exist
+
+Example:
+--out evaluation_results
+
+---
+
+## Output Files
+
+After execution, the output directory contains:
+
+evaluation_results/
+├── output.wav        (Dereverberated audio output)
+└── summary.json      (Evaluation metrics and run details)
+
+---
+
+## What Happens Internally
+
+Input Audio (.wav)
+→ Pre-emphasis
+→ STFT
+→ Mel Spectrogram (80 bins)
+→ Log-Mel Normalization + RT60
+→ Dereverberation Model
+→ Clean Log-Mel
+→ HiFi-GAN Vocoder
+→ Output Audio (.wav)
+
+---
+
+## Notes
+
+- CUDA is used automatically if available
+- CPU execution is supported but slow (HiFi-GAN is computationally heavy)
+- Feature extraction parameters must exactly match the checkpoint configuration
+- HiFi-GAN weights are downloaded automatically on first run 
+
+
